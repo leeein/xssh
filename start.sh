@@ -1,6 +1,10 @@
-version: "3.9"  # optional since v1.27.0
-services:
-  web:
-    build: .
-    ports:
-      - "80:80"
+#!/bin/bash
+source /app/config.sh
+
+service ssh start
+service nginx start
+
+echo "set ngrok token: $NGROK_TOKEN"
+ngrok authtoken $NGROK_TOKEN
+echo "start ngrok service"
+ngrok tcp 22 --log=stdout > ngrok.log
